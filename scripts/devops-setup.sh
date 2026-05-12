@@ -1,40 +1,40 @@
 #!/usr/bin/env bash
 # ❄️   WSL / Native Ubuntu 24.04 — Full Dev Environment Setup (Nord Theme)
 # ╭────────────────────────────────────────────────────────────────────────────╮
-# │ 🚀 Full Dev Environment Clone Script                                       │
+# │ 🚀 Full Dev Environment Clone Script                                        │
 # │                                                                            │
 # │ Installs all tools and writes fully configured dotfiles:                   │
 # │   ~/.bashrc  ~/.zshrc  ~/.vimrc  ~/.gitconfig  ~/.tmux.conf               │
-# │   ~/.config/terminator/config  ~/.config/fontconfig/fonts.conf            │
+# │   ~/.config/terminator/config  ~/.config/fontconfig/fonts.conf               │
 # │                                                                            │
-# │ 📋 WHAT IT CONFIGURES (prompted interactively):                            │
+# │ 📋 WHAT IT CONFIGURES (prompted interactively):                             │
 # │   • Git identity, GPG signing key (generate new or import existing)        │
 # │   • Per-directory git identities (work vs personal)                        │
 # │   • Default shell — zsh (recommended) or bash                              │
 # │   • Nord theme (live colour palette preview shown before choosing)         │
-# │   • MesloLGS Nerd Font — optionally set as global monospace font          │
+# │   • MesloLGS Nerd Font — optionally set as global monospace font           │
 # │   • Bash → Zsh history migration (auto-runs when switching to zsh)         │
-# │   • Vim + vim-plug plugins (NERDTree, CoC LSP, fzf, Nord, GitGutter…)    │
+# │   • Vim + vim-plug plugins (NERDTree, CoC LSP, fzf, Nord, GitGutter…)      │
 # │   • Kubernetes channel (kubectl), Node.js LTS version                      │
 # │   • WSL: Windows username, Terminator desktop shortcut + icon              │
 # │                                                                            │
-# │ 🛠️  TOOLS INSTALLED:                                                       │
-# │   apt  — docker, kubectl, terraform, ansible, azure-cli, gcloud,          │
-# │           gh, nodejs, eza, zoxide, fzf, bat, ripgrep, tmux, vim …        │
+# │ 🛠️  TOOLS INSTALLED:                                                        │
+# │   apt  — docker, kubectl, terraform, ansible, azure-cli, gcloud,           │
+# │           gh, nodejs, eza, zoxide, fzf, bat, ripgrep, tmux, vim …         │
 # │   snap — yq                                                                │
-# │   bin  — helm, helmfile, kubelogin, lazygit                               │
+# │   bin  — helm, helmfile, kubelogin, lazygit                                │
 # │   pipx — git-filter-repo                                                   │
-# │   zsh  — Oh My Zsh, Powerlevel10k, zsh-autosuggestions,                   │
-# │           zsh-syntax-highlighting                                           │
+# │   zsh  — Oh My Zsh, Powerlevel10k, zsh-autosuggestions,                    │
+# │           zsh-syntax-highlighting                                          │
 # │                                                                            │
-# │ 📖 HOW TO USE:                                                             │
-# │   1. Copy this file to the new machine (git, scp, USB, shared folder…)    │
-# │   2. chmod +x devops-setup.sh && bash devops-setup.sh                     │
-# │   3. Answer the prompts — nothing personal is hardcoded in this file       │
+# │ 📖 HOW TO USE:                                                              │
+# │   1. Copy this file to the new machine (git, scp, USB, shared folder…)     │
+# │   2. chmod +x devops-setup.sh && bash devops-setup.sh                      │
+# │   3. Answer the prompts — nothing personal is hardcoded in this file        │
 # │   4. Grab a coffee ☕   — the full run takes 5–10 minutes                  │
 # │                                                                            │
-# │ ⚠️  RUN AS: your normal user (NOT root). You need sudo access.             │
-# │ ✅  IDEMPOTENT: safe to re-run — already-installed items are skipped.      │
+# │ ⚠️  RUN AS: your normal user (NOT root). You need sudo access.              │
+# │ ✅  IDEMPOTENT: safe to re-run — already-installed items are skipped.       │
 # ╰────────────────────────────────────────────────────────────────────────────╯
 
 # Bash Strict Mode:
@@ -178,10 +178,10 @@ show_nord_palette() {
     printf "\033[48;2;59;66;82m      \033[0m"   # #3B4252
     printf "\033[48;2;67;76;94m      \033[0m"   # #434C5E
     printf "\033[48;2;76;86;106m      \033[0m"  # #4C566A
-    printf "                             ${CYAN}║\n"
+    printf "                       ${CYAN}║\n"
     printf "  ║               "
     printf "%-6s  %-6s  %-6s  %-6s" "#2E3440" "#3B4252" "#434C5E" "#4C566A"
-    printf "                             ║\n"
+    printf "                 ║\n"
 
     echo -e "  ║                                                              ║"
 
@@ -190,10 +190,10 @@ show_nord_palette() {
     printf "\033[48;2;216;222;233m      \033[0m"  # #D8DEE9
     printf "\033[48;2;229;233;240m      \033[0m"  # #E5E9F0
     printf "\033[48;2;236;239;244m      \033[0m"  # #ECEFF4
-    printf "                                          ║\n"
+    printf "                             ║\n"
     printf "  ║               "
     printf "%-6s  %-6s  %-6s" "#D8DEE9" "#E5E9F0" "#ECEFF4"
-    printf "                                          ║\n"
+    printf "                         ║\n"
 
     echo -e "  ║                                                              ║"
 
@@ -203,10 +203,10 @@ show_nord_palette() {
     printf "\033[48;2;136;192;208m      \033[0m"  # #88C0D0
     printf "\033[48;2;129;161;193m      \033[0m"  # #81A1C1
     printf "\033[48;2;94;129;172m      \033[0m"   # #5E81AC
-    printf "                             ║\n"
+    printf "                       ║\n"
     printf "  ║               "
     printf "%-6s  %-6s  %-6s  %-6s" "#8FBCBB" "#88C0D0" "#81A1C1" "#5E81AC"
-    printf "                             ║\n"
+    printf "                 ║\n"
 
     echo -e "  ║                                                              ║"
 
@@ -217,10 +217,10 @@ show_nord_palette() {
     printf "\033[48;2;235;203;139m      \033[0m"  # #EBCB8B  Yellow
     printf "\033[48;2;163;190;140m      \033[0m"  # #A3BE8C  Green
     printf "\033[48;2;180;142;173m      \033[0m"  # #B48EAD  Purple
-    printf "                   ║\n"
+    printf "           ║\n"
     printf "  ║               "
     printf "%-6s  %-6s  %-6s  %-6s  %-6s" "#BF616A" "#D08770" "#EBCB8B" "#A3BE8C" "#B48EAD"
-    printf "                   ║\n"
+    printf "         ║\n"
 
     echo -e "  ║                                                              ║"
     echo -e "  ╚══════════════════════════════════════════════════════════════╝${RESET}\n"
@@ -423,28 +423,35 @@ echo ""
 echo -e "${BOLD}┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓"
 echo -e "┃ 📋 Configuration Summary                                           ┃"
 echo -e "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛${RESET}"
-echo -e "  💻  Detected OS         : ${BOLD}$($IS_WSL && echo "WSL" || echo "Native Linux")${RESET}"
-echo -e "  🔄  Overwrite dotfiles  : ${BOLD}${OVERWRITE_DOTFILES:-y}${RESET}"
-echo -e "  🔄  Overwrite keys      : ${BOLD}${OVERWRITE_KEYS:-n}${RESET}"
-echo -e "  👤  Git name            : ${BOLD}${GIT_NAME:-<not set>}${RESET}"
-echo -e "  📧  Git email           : ${BOLD}${GIT_EMAIL:-<not set>}${RESET}"
-echo -e "  🐙  GitHub user         : ${BOLD}${GITHUB_USERNAME:-<not set>}${RESET}"
-echo -e "  🔑  SSH key action      : ${BOLD}${SSH_ACTION}${RESET}"
+# Helper to print aligned summary lines: emoji, label, value
+print_summary() {
+    # Use Cursor Horizontal Absolute (CHA) to ensure the label starts at column 7.
+    # This handles both 1-column and 2-column emojis consistently across terminals.
+    printf "  %s  \033[7G%-20s: ${BOLD}%s${RESET}\n" "$1" "$2" "$3"
+}
+
+print_summary "💻" "Detected OS" "$($IS_WSL && echo "WSL" || echo "Native Linux")"
+print_summary "🔄" "Overwrite dotfiles" "${OVERWRITE_DOTFILES:-y}"
+print_summary "🔄" "Overwrite keys" "${OVERWRITE_KEYS:-n}"
+print_summary "👤" "Git name" "${GIT_NAME:-<not set>}"
+print_summary "📧" "Git email" "${GIT_EMAIL:-<not set>}"
+print_summary "🐙" "GitHub user" "${GITHUB_USERNAME:-<not set>}"
+print_summary "🔑" "SSH key action" "${SSH_ACTION}"
 if [[ "$SSH_ACTION" == "existing" ]]; then
-    echo -e "  📥  SSH private key     : ${BOLD}${SSH_IMPORT_PRIVATE:-<not set>}${RESET}"
+    print_summary "📥" "SSH private key" "${SSH_IMPORT_PRIVATE:-<not set>}"
 fi
-echo -e "  🛡️   GPG action          : ${BOLD}${GPG_ACTION}${RESET}"
+print_summary "🛡️" "GPG action" "${GPG_ACTION}"
 if [[ "$GPG_ACTION" == "existing" ]]; then
-    echo -e "  🔑  GPG key ID          : ${BOLD}${GIT_SIGNING_KEY:-<not set>}${RESET}"
-    echo -e "  📥  GPG import path     : ${BOLD}${GPG_IMPORT_PATH:-<skipped>}${RESET}"
+    print_summary "🔑" "GPG key ID" "${GIT_SIGNING_KEY:-<not set>}"
+    print_summary "📥" "GPG import path" "${GPG_IMPORT_PATH:-<skipped>}"
 fi
-if $IS_WSL; then echo -e "  🪟   Windows user        : ${BOLD}${WINDOWS_USER:-<not set>}${RESET}"; fi
-echo -e "  📝  Setup Vim           : ${BOLD}${SETUP_VIM}${RESET}"
-echo -e "  ❄️   Apply Nord Theme    : ${BOLD}${APPLY_NORD}${RESET}"
-echo -e "  🐚  Default shell       : ${BOLD}${DEFAULT_SHELL_CHOICE}${RESET}"
-echo -e "  🔤  Global font         : ${BOLD}${SET_MESLO_GLOBAL}${RESET}"
-echo -e "  ☸️   kubectl channel     : ${BOLD}${K8S_CHANNEL}${RESET}"
-echo -e "  🟢  Node.js version     : ${BOLD}${NODE_VERSION}${RESET}"
+if $IS_WSL; then print_summary "🪟" "Windows user" "${WINDOWS_USER:-<not set>}"; fi
+print_summary "📝" "Setup Vim" "${SETUP_VIM}"
+print_summary "❄️" "Apply Nord Theme" "${APPLY_NORD}"
+print_summary "🐚" "Default shell" "${DEFAULT_SHELL_CHOICE}"
+print_summary "🔤" "Global font" "${SET_MESLO_GLOBAL}"
+print_summary "☸️" "kubectl channel" "${K8S_CHANNEL}"
+print_summary "🟢" "Node.js version" "${NODE_VERSION}"
 echo ""
 ask "CONFIRM_START" "Looks good? Press ENTER to start, or Ctrl+C to abort" "y"
 
@@ -632,13 +639,13 @@ function connect_cluster () {
     local RG="$2"
     local CLUSTER="$3"
     export KUBECONFIG="$HOME/.kube/config_${CLUSTER}"
-    echo "🔌 Connecting to ${CLUSTER}..."
+    echo "☸️  Connecting to ${CLUSTER}..."
     az account set --subscription "${SUBSCRIPTION}"
     az aks get-credentials --resource-group "${RG}" --name "${CLUSTER}" --overwrite-existing
     if command -v kubelogin &> /dev/null; then
         kubelogin convert-kubeconfig -l azurecli
     fi
-    export PS1="\[\e[38;2;136;192;208m\][${CLUSTER^^}]\[\e[0m\] \u@\h:\w $ "
+    export PS1="\[\e[38;2;136;192;208m\]☸️  ${CLUSTER^^}\[\e[0m\] \u@\h:\w $ "
 }
 
 # ==============================================================================
@@ -688,13 +695,13 @@ function maincolors() {
     for i in {0..7}; do printf "\e[48;5;%sm              \e[0m " "$i"; done; echo ""
     for i in {0..7}; do printf "\e[48;5;%sm      %02d      \e[0m " "$i" "$i"; done; echo ""
     for i in {0..7}; do printf "\e[48;5;%sm              \e[0m " "$i"; done; echo ""
-    for i in {0..7}; do printf "   %-7s      " "${hex[$i]}"; done; echo -e "\n"
+    for i in {0..7}; do printf "  %-7s      " "${hex[$i]}"; done; echo -e "\n"
    
     echo "Bright Colors (8-15):"
     for i in {8..15}; do printf "\e[48;5;%sm              \e[0m " "$i"; done; echo ""
     for i in {8..15}; do printf "\e[48;5;%sm      %02d      \e[0m " "$i" "$i"; done; echo ""
     for i in {8..15}; do printf "\e[48;5;%sm              \e[0m " "$i"; done; echo ""
-    for i in {8..15}; do printf "   %-7s      " "${hex[$i]}"; done; echo -e "\n"
+    for i in {8..15}; do printf "  %-7s      " "${hex[$i]}"; done; echo -e "\n"
 }
 
 # ==============================================================================
@@ -1557,13 +1564,13 @@ function connect_cluster () {
     local RG="$2"
     local CLUSTER="$3"
     export KUBECONFIG="$HOME/.kube/config_${CLUSTER}"
-    echo "Connecting to ${CLUSTER}..."
+    echo "☸️  Connecting to ${CLUSTER}..."
     az account set --subscription "${SUBSCRIPTION}"
     az aks get-credentials --resource-group "${RG}" --name "${CLUSTER}" --overwrite-existing
     if command -v kubelogin &> /dev/null; then
         kubelogin convert-kubeconfig -l azurecli
     fi
-    export PROMPT="%F{#88C0D0}[${CLUSTER:u}]%f %n@%m:%~ $ "
+    export PROMPT="%F{#88C0D0}☸️  ${CLUSTER:u}%f %n@%m:%~ $ "
 }
 
 # ==============================================================================
@@ -1610,9 +1617,16 @@ apply_nord_palette > /dev/null 2>&1
 function maincolors() {
     local hex=("#3B4252" "#BF616A" "#A3BE8C" "#EBCB8B" "#81A1C1" "#B48EAD" "#88C0D0" "#E5E9F0" "#4C566A" "#BF616A" "#A3BE8C" "#EBCB8B" "#81A1C1" "#B48EAD" "#8FBCBB" "#ECEFF4")
     echo "\nStandard Colors (0-7):"
-    for i in {0..7};  do printf "\e[48;5;%sm      %02d      \e[0m   %-7s    " "$i" "$i" "${hex[$i]}"; done; echo ""
-    echo "\nBright Colors (8-15):"
-    for i in {8..15}; do printf "\e[48;5;%sm      %02d      \e[0m   %-7s    " "$i" "$i" "${hex[$i]}"; done; echo ""
+    for i in {0..7}; do printf "\e[48;5;%sm              \e[0m " "$i"; done; echo ""
+    for i in {0..7}; do printf "\e[48;5;%sm      %02d      \e[0m " "$i" "$i"; done; echo ""
+    for i in {0..7}; do printf "\e[48;5;%sm              \e[0m " "$i"; done; echo ""
+    for i in {0..7}; do printf "  %-7s      " "${hex[$i]}"; done; echo "\n"
+   
+    echo "Bright Colors (8-15):"
+    for i in {8..15}; do printf "\e[48;5;%sm              \e[0m " "$i"; done; echo ""
+    for i in {8..15}; do printf "\e[48;5;%sm      %02d      \e[0m " "$i" "$i"; done; echo ""
+    for i in {8..15}; do printf "\e[48;5;%sm              \e[0m " "$i"; done; echo ""
+    for i in {8..15}; do printf "  %-7s      " "${hex[$i]}"; done; echo "\n"
 }
 
 # ==============================================================================
@@ -2920,7 +2934,7 @@ else
       # '*test*'  TEST    # to match your needs. Customize them as needed.
       '*'       DEFAULT)
   typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_FOREGROUND=134
-  typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_VISUAL_IDENTIFIER_EXPANSION='☸️'
+  typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_VISUAL_IDENTIFIER_EXPANSION='☸️ '
 
   # Use POWERLEVEL9K_KUBECONTEXT_CONTENT_EXPANSION to specify the content displayed by kubecontext
   # segment. Parameter expansions are very flexible and fast, too. See reference:
