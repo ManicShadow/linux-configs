@@ -4,7 +4,7 @@
 # │ 🚀 Full Dev Environment Clone Script                                        │
 # │                                                                            │
 # │ Installs all tools and writes fully configured dotfiles:                   │
-# │   ~/.bashrc  ~/.zshrc  ~/.vimrc  ~/.gitconfig  ~/.tmux.conf               │
+# │   ~/.bashrc  ~/.zshrc  ~/.vimrc  ~/.tmux.conf                             │
 # │   ~/.config/terminator/config  ~/.config/fontconfig/fonts.conf               │
 # │                                                                            │
 # │ 📋 WHAT IT CONFIGURES (prompted interactively):                             │
@@ -252,7 +252,7 @@ echo ""
 echo -e "${CYAN}✨  Answer the prompts below. Press ENTER to accept [defaults <value>] y/n or skip optional items.${RESET}"
 echo ""
 
-echo -e "🧹  Overwrite existing dotfiles (~/.bashrc, ~/.zshrc, ~/.vimrc, ~/.gitconfig, terminator)?"
+echo -e "🧹  Overwrite existing dotfiles (~/.bashrc, ~/.zshrc, ~/.vimrc, terminator)?"
 ask "OVERWRITE_DOTFILES" "Overwrite dotfiles" "y"
 
 echo ""
@@ -272,6 +272,10 @@ ask "GIT_EMAIL" "Git email" ""
 echo ""
 echo -e "🐙  Your GitHub username (e.g. jdoe):"
 ask "GITHUB_USERNAME" "GitHub user" ""
+
+echo ""
+echo -e "📝  Create/overwrite ~/.gitconfig with your git identity and settings?"
+ask "CREATE_GITCONFIG" "Create gitconfig" "n"
 
 # ── 🔐 SSH & GPG Automation ──
 echo ""
@@ -1196,8 +1200,8 @@ fi
 # ==============================================================================
 section "🐙  10. Git Configuration"
 
-if [[ -f ~/.gitconfig ]] && [[ "$OVERWRITE_DOTFILES" != "y" ]]; then
-    skip "~/.gitconfig already exists and overwrite is disabled."
+if [[ "$CREATE_GITCONFIG" != "y" ]]; then
+    skip "Skipping ~/.gitconfig — user opted out."
 else
     if [[ -n "$GIT_NAME" && -n "$GIT_EMAIL" ]]; then
         if [[ -f ~/.gitconfig ]]; then
@@ -1381,10 +1385,12 @@ GPGEOF
     # Patch gitconfig and dotfiles with the newly known key ID
     # (gitconfig and .bashrc were written before this section, so we update them in-place)
     if [[ -n "$GIT_SIGNING_KEY" ]]; then
-        git config --global user.signingkey "$GIT_SIGNING_KEY"
-        git config --global commit.gpgsign true
-        git config --global gpg.program gpg
-        success "~/.gitconfig updated with signing key ${GIT_SIGNING_KEY}."
+        if [[ "$CREATE_GITCONFIG" == "y" ]]; then
+            git config --global user.signingkey "$GIT_SIGNING_KEY"
+            git config --global commit.gpgsign true
+            git config --global gpg.program gpg
+            success "~/.gitconfig updated with signing key ${GIT_SIGNING_KEY}."
+        fi
         COMMIT_FLAGS="-S -m"
         sed -i 's/git commit -m /git commit -S -m /g' ~/.bashrc 2>/dev/null || true
         sed -i 's/git commit -m /git commit -S -m /g' ~/.zshrc  2>/dev/null || true
