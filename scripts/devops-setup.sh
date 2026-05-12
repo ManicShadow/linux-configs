@@ -1694,6 +1694,7 @@ else
     os_icon                 # os identifier
     dir                     # current directory
     vcs                     # git status
+    kubecontext             # current kubernetes context
     prompt_char             # prompt symbol
   )
 
@@ -1732,7 +1733,6 @@ else
     phpenv                  # php version from phpenv (https://github.com/phpenv/phpenv)
     scalaenv                # scala version from scalaenv (https://github.com/scalaenv/scalaenv)
     haskell_stack           # haskell version from stack (https://haskellstack.org/)
-    kubecontext             # current kubernetes context (https://kubernetes.io/)
     terraform               # terraform workspace (https://www.terraform.io)
     # terraform_version     # terraform version (https://www.terraform.io)
     aws                     # aws profile (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
@@ -2887,7 +2887,7 @@ else
   #############[ kubecontext: current kubernetes context (https://kubernetes.io/) ]#############
   # Show kubecontext only when the command you are typing invokes one of these tools.
   # Tip: Remove the next line to always show kubecontext.
-  typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold|kubent|kubecolor|cmctl|sparkctl'
+  # typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|kubectx|oc|istioctl|kogito|k9s|helmfile|flux|fluxctl|stern|kubeseal|skaffold|kubent|kubecolor|cmctl|sparkctl'
 
   # Kubernetes context classes for the purpose of using different colors, icons and expansions with
   # different contexts.
@@ -2920,7 +2920,7 @@ else
       # '*test*'  TEST    # to match your needs. Customize them as needed.
       '*'       DEFAULT)
   typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_FOREGROUND=134
-  # typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_VISUAL_IDENTIFIER_EXPANSION='⭐'
+  typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_VISUAL_IDENTIFIER_EXPANSION='☸️'
 
   # Use POWERLEVEL9K_KUBECONTEXT_CONTENT_EXPANSION to specify the content displayed by kubecontext
   # segment. Parameter expansions are very flexible and fast, too. See reference:
@@ -2962,14 +2962,11 @@ else
   #   - P9K_KUBECONTEXT_CLOUD_ACCOUNT=123456789012
   #   - P9K_KUBECONTEXT_CLOUD_ZONE=us-east-1
   #   - P9K_KUBECONTEXT_CLOUD_CLUSTER=my-cluster-01
-  typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION=
-  # Show P9K_KUBECONTEXT_CLOUD_CLUSTER if it's not empty and fall back to P9K_KUBECONTEXT_NAME.
-  POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION+='${P9K_KUBECONTEXT_CLOUD_CLUSTER:-${P9K_KUBECONTEXT_NAME}}'
-  # Append the current context's namespace if it's not "default".
-  POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION+='${${:-/$P9K_KUBECONTEXT_NAMESPACE}:#/default}'
+
+  typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_CONTENT_EXPANSION='${P9K_KUBECONTEXT_CLOUD_CLUSTER:-${${P9K_KUBECONTEXT_NAME##*/}##*@}}'
 
   # Custom prefix.
-  typeset -g POWERLEVEL9K_KUBECONTEXT_PREFIX='%fat '
+  typeset -g POWERLEVEL9K_KUBECONTEXT_PREFIX=''
 
   ################[ terraform: terraform workspace (https://www.terraform.io) ]#################
   # Don't show terraform workspace if it's literally "default".
@@ -3301,7 +3298,7 @@ else
   # Custom icon.
   # typeset -g POWERLEVEL9K_TIME_VISUAL_IDENTIFIER_EXPANSION='⭐'
   # Custom prefix.
-  typeset -g POWERLEVEL9K_TIME_PREFIX='%fat '
+  typeset -g POWERLEVEL9K_TIME_PREFIX=''
 
   # Example of a user-defined prompt segment. Function prompt_example will be called on every
   # prompt if `example` prompt segment is added to POWERLEVEL9K_LEFT_PROMPT_ELEMENTS or
@@ -3372,7 +3369,6 @@ typeset -g POWERLEVEL9K_CONFIG_FILE=${${(%):-%x}:a}
 
 (( ${#p10k_config_opts} )) && setopt ${p10k_config_opts[@]}
 'builtin' 'unset' 'p10k_config_opts'
-
 P10K_EMBED_EOF
     chmod 644 ~/.p10k.zsh
     success "~/.p10k.zsh written. 🎨"
